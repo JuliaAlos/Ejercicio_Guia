@@ -39,6 +39,8 @@
             this.Bonito = new System.Windows.Forms.RadioButton();
             this.Conectar = new System.Windows.Forms.Button();
             this.Desconectar = new System.Windows.Forms.Button();
+            this.Servicios = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -157,11 +159,30 @@
             this.Desconectar.UseVisualStyleBackColor = true;
             this.Desconectar.Click += new System.EventHandler(this.Desconectar_Click);
             // 
+            // Servicios
+            // 
+            this.Servicios.Location = new System.Drawing.Point(473, 156);
+            this.Servicios.Name = "Servicios";
+            this.Servicios.Size = new System.Drawing.Size(124, 31);
+            this.Servicios.TabIndex = 9;
+            this.Servicios.Text = "¿Cuantos servicios?";
+            this.Servicios.UseVisualStyleBackColor = true;
+            this.Servicios.Click += new System.EventHandler(this.Servicios_Click);
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(473, 208);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(123, 87);
+            this.label3.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(741, 562);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.Servicios);
             this.Controls.Add(this.Desconectar);
             this.Controls.Add(this.Conectar);
             this.Controls.Add(this.groupBox1);
@@ -187,6 +208,8 @@
         private System.Windows.Forms.TextBox Altura;
         private System.Windows.Forms.Button Conectar;
         private System.Windows.Forms.Button Desconectar;
+        private System.Windows.Forms.Button Servicios;
+        private System.Windows.Forms.Label label3;
     }
 }
 

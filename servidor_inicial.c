@@ -7,6 +7,10 @@
 #include <stdio.h>
 #include <pthread.h>
 
+int contador;
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
 void *AtenderCliente (void *socket)
 {
 	int sock_conn;
@@ -43,13 +47,18 @@ void *AtenderCliente (void *socket)
 		{
 			terminar =1;
 		}
+		
 		else
 		{
-			strcpy (nombre, p);
-			printf ("Codigo: %d, Nombre: %s\n", codigo, nombre);
+			if (codigo != 4){
+				strcpy (nombre, p);
+				printf ("Codigo: %d, Nombre: %s\n", codigo, nombre);
+			}
+			
 			
 			if (codigo ==1) //piden la longitd del nombre
 				sprintf (respuesta,"%d",strlen (nombre));
+			
 			else if (codigo ==2)
 			{
 				// quieren saber si el nombre es bonito
@@ -64,7 +73,7 @@ void *AtenderCliente (void *socket)
 				printf ("%s\n", respuesta);
 				// Y lo enviamos
 			}
-			else
+			else if (codigo ==3)
 			{
 				p=strtok(NULL,"/");
 				float altura =  atof (p);
@@ -78,8 +87,18 @@ void *AtenderCliente (void *socket)
 					sprintf (respuesta,"%s no eres alto ",nombre);
 				}
 			}
+			else{
+				sprintf (respuesta,"%d",contador);
+			}
 			write (sock_conn,respuesta, strlen(respuesta));
 		}
+		if ((codigo ==1) ||(codigo ==2) ||(codigo ==3))
+		{
+			pthread_mutex_lock (&mutex);
+			contador++;
+			pthread_mutex_unlock (&mutex);
+		}
+			
 	}
 	
 	// Se acabo el servicio para este cliente
@@ -106,13 +125,14 @@ int main(int argc, char *argv[])
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 9050
-	serv_adr.sin_port = htons(9050);
+	serv_adr.sin_port = htons(9040);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind");
 	//La cola de peticiones pendientes no podra ser superior a 4
 	if (listen(sock_listen, 3) < 0)
 		printf("Error en el Listen");
 	
+	contador =0;
 	int i;
 	int sockets[100];
 	pthread_t thread[100];
